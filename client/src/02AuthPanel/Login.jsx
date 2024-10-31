@@ -10,13 +10,11 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
-const handleRegister = () => {
-navigate("/register");
-}
-
-
+  const handleRegister = () => {
+    navigate("/register");
+  };
 
   return (
     <div>
@@ -81,7 +79,12 @@ navigate("/register");
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" style={{marginRight: 5}} onClick={handleRegister()}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ marginRight: 5 }}
+            onClick={handleRegister}
+          >
             Register
           </Button>
           <Button type="primary" htmlType="submit">
