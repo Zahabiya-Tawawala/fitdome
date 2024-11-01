@@ -6,8 +6,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
 
 const Register = () => {
-  const navigate = useNavigate();
-
   const onFinish = (values) => {
     console.log("Success:", values);
     // Registration logic here
@@ -16,6 +14,7 @@ const Register = () => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     navigate("/login");
@@ -23,8 +22,8 @@ const Register = () => {
 
   return (
     <div style={styles.container}>
-      <Title level={2} style={{ color: "#fff", textAlign: "left" }}>
-        Create Your <br /> Account
+      <Title level={2} style={{ color: "#1E1E2A", textAlign: "left" }}>
+        Create Your Account
       </Title>
 
       <Form
@@ -34,7 +33,7 @@ const Register = () => {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
-          label={<Text style={styles.label}>Gmail</Text>}
+          label={<Text style={styles.label}>Username</Text>}
           name="gmail"
           rules={[
             { required: true, message: "Please input your Gmail address!" },
@@ -49,9 +48,11 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
-          label={<Text style={styles.label}>Phone or Gmail</Text>}
+          label={<Text style={styles.label}>Gmail</Text>}
           name="phoneOrGmail"
-          rules={[{ required: true, message: "Please input your phone or Gmail!" }]}
+          rules={[
+            { required: true, message: "Please input your phone or Gmail!" },
+          ]}
         >
           <Input
             prefix={<UserOutlined style={styles.icon} />}
@@ -102,7 +103,7 @@ const Register = () => {
         </Form.Item>
 
         <Text style={styles.footerText}>
-          Already have an account? <a onClick={handleLogin}>Sign in</a>
+          Already have an account? <a style={styles.linkColor} onClick={handleLogin}>Sign in</a>
         </Text>
       </Form>
     </div>
@@ -111,45 +112,46 @@ const Register = () => {
 
 const styles = {
   container: {
-    backgroundColor: 'linear-gradient(45deg, #320033, #700020)',
-    display: 'flex',
-    flexDirection: 'column-reverse',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   form: {
-    backgroundColor: '#f5f5f5',
-    padding: '40px 20px',
-    borderRadius: '20px',
-    width: '100%',
-    maxWidth: '400px',
-    textAlign: 'center',
+    backgroundColor: "var( --cool-gray)",
+    padding: "40px 20px",
+    borderRadius: "20px",
+    width: "100%",
+    maxWidth: "400px",
+    textAlign: "center",
   },
   label: {
-    color: '#8b0000',
-    fontWeight: 'bold',
+    color: "var(--very-dark-blue-gray)",
+    fontWeight: "bold",
   },
   input: {
-    borderRadius: '8px',
+    borderRadius: "8px",
   },
   icon: {
-    color: '#8b0000',
+    color: 'var(--very-dark-blue-gray)',
   },
   button: {
-    width: '100%',
-    borderRadius: '8px',
-    background: 'linear-gradient(45deg, #800020, #a00040)',
-    borderColor: '#800020',
-    color: '#fff',
+    width: "100%",
+    borderRadius: "8px",
+    background: "var(--dark-grayish-purple)",
+    borderColor: "var(--dark-grayish-purple)",
+    color: "#fff",
   },
   footerText: {
-    color: '#8b0000',
-    marginTop: '20px',
+    color: 'var(--very-dark-blue-gray)',
+    marginTop: "20px",
+  },
+  linkColor: {
+    color: 'var(--white)'
   },
 };
 
 export default Register;
-
 
 // import React from "react";
 // import { Form, Input, Button } from "antd";

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Form, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import "../App.css";
 
 const { Title, Text } = Typography;
 const onFinish = (values) => {
@@ -21,8 +22,8 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
-      <Title level={2} style={{ color: "#fff", textAlign: "left" }}>
-        Hello <br /> Sign in!
+      <Title level={2} style={{ color: "#1E1E2A", textAlign: "left" }}>
+        Hello Sign in!
       </Title>
 
       <Form style={styles.form} layout="vertical">
@@ -57,7 +58,7 @@ const Login = () => {
         </Form.Item>
 
         <Text style={styles.footerText}>
-          Don’t have an account? <a onClick={handleRegister}>Sign up</a>
+          Don’t have an account? <a style={styles.linkColor} onClick={handleRegister}>Sign up</a>
         </Text>
       </Form>
     </div>
@@ -66,16 +67,15 @@ const Login = () => {
 
 const styles = {
   container: {
-    backgroundColor: 'linear-gradient(45deg, #320033, #700020)',
     // height: '100vh',
     display: 'flex',
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     // padding: '20px',
   },
   form: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'var( --cool-gray)',
     padding: '40px 20px',
     borderRadius: '20px',
     width: '100%',
@@ -83,26 +83,29 @@ const styles = {
     textAlign: 'center',
   },
   label: {
-    color: '#8b0000',
+    color: 'var(--very-dark-blue-gray)',
     fontWeight: 'bold',
   },
   input: {
     borderRadius: '8px',
   },
   icon: {
-    color: '#8b0000',
+    color: 'var(--very-dark-blue-gray)',
   },
   button: {
     width: '100%',
     borderRadius: '8px',
-    background: 'linear-gradient(45deg, #800020, #a00040)',
-    borderColor: '#800020',
-    color: '#fff',
+    background: 'var(--dark-grayish-purple)',
+    borderColor: 'var(--dark-grayish-purple)',
+    color: 'var(--white)',
   },
   footerText: {
-    color: '#8b0000',
+    color: 'var(--very-dark-blue-gray)',
     marginTop: '20px',
   },
+  linkColor: {
+    color: 'var(--white)'
+  }
 };
 
 
