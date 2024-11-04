@@ -1,11 +1,17 @@
 const express = require("express")
 const app = express()
+const dbconnection = require("./config/db")
+const authRoutes = require("./routes/authRoutes")
+require("dotenv").config();
+
+app.use(express.json())
+app.use("/auth", authRoutes)
 
 // root route
 app.get("/", (req,res) => {res.send("hello world this is zahabiya running port on 5001")})
 
 // port 5001 running the server
-const port = 5001 // add env after env is made 
+const port = process.env.PORT || 5001 // add env after env is made 
 app.listen(port, () => {console.log(`Server is running on port ${port}`)})
 
 

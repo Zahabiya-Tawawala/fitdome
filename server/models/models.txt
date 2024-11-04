@@ -1,1 +1,0 @@
-user models logic or any other logic
