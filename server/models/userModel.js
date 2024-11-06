@@ -18,6 +18,7 @@ const checkUserInTable = (role, identifier, password, callback) => {
     const query = `SELECT * FROM ${rule.table} WHERE ${conditions} LIMIT 1`;
     const queryParams = Array(rule.loginFields.length).fill(identifier);
 
+    // Log the query for debugging
     console.log(`Executing query on ${rule.table}: ${query}`);
 
     // Execute the query
@@ -51,10 +52,7 @@ const createUser = (role, identifier, hashedPassword, callback) => {
     });
 };
 
-
-
-
-// Export the function for use in your routes
+// Export the function for use in your controllers and routes 
 module.exports = { checkUserInTable, createUser };
 
 

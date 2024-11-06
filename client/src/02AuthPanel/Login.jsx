@@ -1,8 +1,9 @@
-import React from "react";
+import {React, useEffect, useState }from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Form, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "../App.css";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 const onFinish = (values) => {
@@ -11,6 +12,26 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
+
+// FETCHING API 
+const API_URL = "http://localhost:5001/auth/login";
+
+async function loginUser(role, identifier, password) {
+  try {
+    const response = await axios.post(API_URL, {
+      role,
+      identifier,
+      password,
+    });
+    console.log("login successfully", response.data);
+    localStorage.setItem("token", response.data.token);
+
+}catch (error) {
+  console.error("login failed", error.response.data.message);
+}
+}
+
+
 
 const Login = () => {
 
