@@ -73,7 +73,7 @@ const Login = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={styles.button}>
+          <Button type="primary" htmlType="submit" style={styles.button} onSubmit={loginUser}>
             Sign In
           </Button>
         </Form.Item>
