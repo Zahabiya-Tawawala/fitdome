@@ -49,6 +49,7 @@ const register = (req, res) => {
       message: "Please provide role, identifier, password and username",
     });
   }
+};
 
 // Check if the user already exists in the database
 checkUserInTable(role, identifier, password, (err, userExists) => {
