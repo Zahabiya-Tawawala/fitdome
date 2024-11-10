@@ -49,34 +49,35 @@ const register = (req, res) => {
       message: "Please provide role, identifier, password and username",
     });
   }
-};
 
-// Check if the user already exists in the database
-checkUserInTable(role, identifier, password, (err, userExists) => {
-    if (err) return res.status(500).json({ message: "Database error", error: err });
-    if (userExists) return res.status(400).json({ message: "User already exists" });
+  // Check if the user already exists in the database
+  checkUserInTable(role, identifier, password, (err, userExists) => {
+    if (err)
+      return res.status(500).json({ message: "Database error", error: err });
+    if (userExists)
+      return res.status(400).json({ message: "User already exists" });
 
     // Hash the password before saving
     bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ message: "Error hashing password", error: err });
+
+      // Save the new user to the database (assuming a `createUser` function in your model)
+
+      // Use the createUser function to add the new user to the database
+      createUser(role, identifier, hashedPassword, username, (err, result) => {
         if (err)
-            return res
+          return res
             .status(500)
-            .json({ message: "Error hashing password", error: err });
-    
-        // Save the new user to the database (assuming a `createUser` function in your model)
-    
-        // Use the createUser function to add the new user to the database
-        createUser(role, identifier, hashedPassword, username, (err, result) => {
-            if (err)
-            return res.status(500).json({ message: "Database error", error: err });
-            res.status(201).json({ message: "User registered successfully" });
-        });
-    
-    })
+            .json({ message: "Database error", error: err });
+        res.status(201).json({ message: "User registered successfully" });
+      });
+    });
+  });
 
-});
-
-//   if(user){
+  //   if(user){
   //     return res.status(400).json({ message: "User already exists" });
   //   }
   // Hash the password before saving
@@ -104,7 +105,6 @@ checkUserInTable(role, identifier, password, (err, userExists) => {
   //     //     res.status(201).json({ message: "User registered successfully" });
   //     // });
   //   });
-
 };
 
 // Exporting the controller functions for use in routes

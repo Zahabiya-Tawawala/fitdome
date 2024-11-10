@@ -1,7 +1,7 @@
 const dbconnection = require("../config/db");
 const bcrypt = require("bcryptjs");
 
-// User model configuration for role-based authentication login rules
+// User model configuration for role-based authentication login rules this is a object with key value pairs wiithin the object 
 const loginRules = {
   center_admin: {
     table: "center_admin",
