@@ -35,7 +35,7 @@ const login = (req, res) => {
 
 // Optional: Register function for creating new users
 const register = (req, res) => {
-  const { role, identifier, password, username } = req.body;
+  const { role, identifier, password, username, gymDocuments } = req.body;
 
   // Allow only 'users' and 'gym_admins' roles to register
   if (role !== "users" && role !== "gym_admins") {
@@ -67,7 +67,7 @@ const register = (req, res) => {
       // Save the new user to the database (assuming a `createUser` function in your model)
 
       // Use the createUser function to add the new user to the database
-      createUser(role, identifier, hashedPassword, username, (err, result) => {
+      createUser(role, identifier, hashedPassword, username, gymDocuments, (err, result) => {
         if (err)
           return res
             .status(500)

@@ -55,7 +55,7 @@ const checkUserInTable = (role, identifier, password, callback) => {
 };
 
 // Function to create a new user in the specified role's table
-const createUser = (role, identifier, hashedPassword, username, callback) => {
+const createUser = (role, identifier, hashedPassword, username,  gymDocuments ,callback) => {
   const table = loginRules[role]?.table;
   const passwordField = loginRules[role]?.passwordField;
   const emailField = loginRules[role]?.loginFields[0];
@@ -64,8 +64,20 @@ const createUser = (role, identifier, hashedPassword, username, callback) => {
   if (!table || !passwordField || !usernameField)
     return callback(new Error("Invalid role specified"));
 
-  const query = `INSERT INTO ${table} ( ${usernameField} ,${emailField}, ${passwordField}) VALUES (?, ?, ?)`;
-  const queryParams = [username, identifier, hashedPassword];
+  let query;
+  let queryParams;
+
+  if (role === "gym_admins") {
+    query = `INSERT INTO ${table} (${emailField}, ${passwordField}, ${usernameField}, gym_documents) VALUES (?, ?, ?, ?)`;
+    queryParams = [identifier, hashedPassword, username, gymDocuments];
+  } else {
+    query = `INSERT INTO ${table} (${emailField}, ${passwordField}, ${usernameField}) VALUES (?, ?, ?)`;
+    queryParams = [identifier, hashedPassword, username];
+  }
+
+
+//   const query = `INSERT INTO ${table} ( ${usernameField} ,${emailField}, ${passwordField}) VALUES (?, ?, ?)`;
+//   const queryParams = [username, identifier, hashedPassword];
 
   dbconnection.query(query, queryParams, (err, result) => {
     if (err) return callback(err);
