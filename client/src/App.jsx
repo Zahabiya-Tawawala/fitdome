@@ -6,6 +6,7 @@ import Register from './02AuthPanel/Register'
 import UserPanel from './03UserPanel/UserPanel'
 import GymAdminPanel from './04GymadminPanel/GymAdminPanel'
 import CenterPanel from './05CenterPanel/CenterPanel'
+import GymRegister from './02AuthPanel/GymRegister'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/gymRegister" element={<GymRegister />} />
           <Route path="/user" element={<UserPanel />} />
           <Route path="/gymadmin" element={<GymAdminPanel />} />
           <Route path="/center" element={<CenterPanel />} />

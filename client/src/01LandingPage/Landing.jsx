@@ -9,11 +9,18 @@ const Landing = () => {
   };
   const size = "large";
 
+const handleGymRegister = () => {
+    navigate("/gymRegister");
+  };
+
   return (
     <div>
       this is the landing page
       <Button type="primary" size={size} onClick={handleLogin}>
         Get Started
+      </Button>
+      <Button type="primary" size={size} onClick={handleGymRegister}>
+        Gym Registration
       </Button>
     </div>
   );
