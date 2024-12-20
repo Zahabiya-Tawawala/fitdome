@@ -1,62 +1,49 @@
-// tmeporary code to hash the passwords in case not hashed
-
-const dbconnection = require("./config/db"); // Adjust path as needed
+const db = require("./config/db"); // Adjust the path to your DB config
 const bcrypt = require("bcryptjs");
 
-const hashPasswords = async () => {
+const hashAndUpdatePasswords = async () => {
   try {
-    // Fetch all users with plain-text passwords
-    const [rows] = await dbconnection.promise().query("SELECT admin_id, admin_password FROM center_admin");
+    const pool = await db(); // Get database connection
 
-    for (const row of rows) {
-      // Check if the password is already hashed
-      if (!row.admin_password.startsWith("$2a$")) {
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(row.admin_password, 10);
+    // Define the tables and their respective password columns
+    const tables = [
+      { name: "center_admin", emailColumn: "admin_gmail", passwordColumn: "admin_password" },
+      { name: "gym_admins", emailColumn: "gym_email", passwordColumn: "gym_password" },
+      { name: "users", emailColumn: "email", passwordColumn: "password" },
+    ];
 
-        // Update the user's password in the database
-        await dbconnection.promise().query("UPDATE center_admin SET admin_password = ? WHERE admin_id = ?", [hashedPassword, row.admin_id]);
+    for (const table of tables) {
+      console.log(`Processing table: ${table.name}`);
+
+      // Fetch users with plain-text passwords
+      const [rows] = await pool.query(
+        `SELECT id, ${table.passwordColumn} AS password FROM ${table.name}`
+      );
+
+      for (const row of rows) {
+        if (!row.password || row.password.startsWith("$2a$")) {
+          // Skip if password is already hashed (bcrypt hashes start with "$2a$")
+          console.log(`Skipping user ID ${row.id} in ${table.name}`);
+          continue;
+        }
+
+        // Hash the plain-text password
+        const hashedPassword = await bcrypt.hash(row.password, 10);
+
+        // Update the hashed password in the database
+        await pool.query(
+          `UPDATE ${table.name} SET ${table.passwordColumn} = ? WHERE id = ?`,
+          [hashedPassword, row.id]
+        );
+
+        console.log(`Updated password for user ID ${row.id} in ${table.name}`);
       }
     }
-    console.log("Passwords hashed successfully!");
+
+    console.log("Password hashing and updates completed!");
   } catch (error) {
-    console.error("Error hashing passwords:", error);
-  } finally {
-    // Close the database connection if needed
-    dbconnection.end();
+    console.error(`Error hashing passwords: ${error.message}`);
   }
 };
 
-// Run the script
-hashPasswords();
-
-// // hashPasswords.js
-// const dbconnection = require("./config/db"); // Update the path if needed
-// const bcrypt = require("bcryptjs");
-
-// const hashPasswords = async () => {
-//   try {
-//     // Fetch all users with plain-text passwords
-//     const [rows] = await dbconnection.promise().query("SELECT id, gym_password FROM gym_admins");
-
-//     for (const row of rows) {
-//       // Check if the password is already hashed
-//       if (!row.gym_password.startsWith("$2a$")) {
-//         // Hash the password
-//         const hashedPassword = await bcrypt.hash(row.gym_password, 10);
-
-//         // Update the user's password in the database
-//         await dbconnection.promise().query("UPDATE gym_admins SET gym_password = ? WHERE id = ?", [hashedPassword, row.id]);
-//       }
-//     }
-//     console.log("Passwords hashed successfully!");
-//   } catch (error) {
-//     console.error("Error hashing passwords:", error);
-//   } finally {
-//     // Close the database connection if needed
-//     dbconnection.end();
-//   }
-// };
-
-// // Run the script
-// hashPasswords();
+hashAndUpdatePasswords();
