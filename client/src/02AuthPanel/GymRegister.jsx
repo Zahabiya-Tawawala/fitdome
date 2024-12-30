@@ -4,6 +4,7 @@ const GymRegister = () => {
   return (
     <div>
       this is the gym resgistration site 
+      registration for gym owners
     </div>
   )
 }
