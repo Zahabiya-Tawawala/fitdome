@@ -29,6 +29,7 @@ const Login = () => {
     console.log("Failed:", errorInfo);
   };
 
+  // this will login the user 
   const loginUser = async (identifier, password) => {
     try {
       setLoading(true);
